@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja Perceptum</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root { --p-dark: #2c3e50; --p-green: #27ae60; }
+        body { background-color: #f8f9fa; font-family: sans-serif; }
+        .card-header { background-color: var(--p-dark); color: white; font-weight: bold; }
+        .resaltado { font-size: 2rem; color: var(--p-green); font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow border-0">
+                <div class="card-header text-center fs-4">CALCULADORA PERCEPTUM</div>
+                <div class="card-body">
+                    <label class="fw-bold">1. Armazón (Código o Manual)</label>
+                    <div class="input-group mb-3">
+                        <input type="text" id="codArmazon" class="form-control" placeholder="Código" oninput="buscarPrecio()">
+                        <span class="input-group-text">Neto $</span>
+                        <input type="number" id="netoArmazon" class="form-control" placeholder="0" oninput="calcular()">
+                    </div>
+                    <label class="fw-bold">2. Cristal (Neto)</label>
+                    <div class="input-group mb-3">
+                        <select id="selectCristal" class="form-select" onchange="copiarNetoCristal()">
+                            <option value="0">Seleccionar...</option>
+                            <option value="1890">CR-39 Blanco AR ($1.890)</option>
+                            <option value="3770">CR-39 Blue Filter ($3.770)</option>
+                            <option value="8000">Poli Blue AR ($8.000)</option>
+                            <option value="12000">Antiage Blue ($12.000)</option>
+                        </select>
+                        <span class="input-group-text">$</span>
+                        <input type="number" id="netoCristal" class="form-control" placeholder="0" oninput="calcular()">
+                    </div>
+                    <label class="fw-bold">3. Montaje (Neto)</label>
+                    <select id="netoMontaje" class="form-select mb-4" onchange="calcular()">
+                        <option value="0">Sin Montaje</option>
+                        <option value="1500">Simple ($1.500)</option>
+                        <option value="3000">Ranurado ($3.000)</option>
+                    </select>
+                    <div class="p-4 border rounded bg-white text-center shadow-sm">
+                        <div class="small text-muted mb-1">PRECIO VENTA FINAL (IVA INCL.)</div>
+                        <div class="resaltado" id="precioFinal">$0</div>
+                        <div class="text-muted mt-2">Suma Netos: <span id="sumaNetos">$0</span></div>
+                    </div>
+                    <button class="btn btn-success w-100 mt-4 fw-bold p-3" onclick="registrar()">REGISTRAR VENTA</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow border-0 h-100">
+                <div class="card-header bg-secondary text-center">FLUJO DE CAJA</div>
+                <div class="card-body">
+                    <table class="table text-center">
+                        <thead><tr><th>Item</th><th>Venta</th><th>X</th></tr></thead>
+                        <tbody id="tablaVentas"></tbody>
+                    </table>
+                    <div class="text-end fw-bold fs-4 mt-3 p-3 bg-light rounded">TOTAL: <span id="totalCaja" class="text-success">$0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const basePrecios = {"10411": 1990, "10410": 1990, "7224": 5500, "9105": 5990, "7968": 3990};
+    function buscarPrecio() {
+        const cod = document.getElementById('codArmazon').value;
+        if(basePrecios[cod]) document.getElementById('netoArmazon').value = basePrecios[cod];
+        calcular();
+    }
+    function copiarNetoCristal() {
+        const s = document.getElementById('selectCristal');
+        if(s.value !== "0") document.getElementById('netoCristal').value = s.value;
+        calcular();
+    }
+    function calcular() {
+        const nA = parseFloat(document.getElementById('netoArmazon').value) || 0;
+        const nC = parseFloat(document.getElementById('netoCristal').value) || 0;
+        const nM = parseFloat(document.getElementById('netoMontaje').value) || 0;
+        const suma = nA + nC + nM;
+        const venta = Math.round((suma * 3) * 1.19);
+        document.getElementById('sumaNetos').innerText = "$" + suma.toLocaleString('es-CL');
+        document.getElementById('precioFinal').innerText = "$" + venta.toLocaleString('es-CL');
+    }
+    function registrar() {
+        const v = document.getElementById('precioFinal').innerText;
+        if(v === "$0") return;
+        const it = document.getElementById('codArmazon').value || "Venta";
+        document.getElementById('tablaVentas').innerHTML += `<tr><td>${it}</td><td class="vVal">${v}</td><td><button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove(); actualizarCaja()">×</button></td></tr>`;
+        actualizarCaja();
+    }
+    function actualizarCaja() {
+        let t = 0;
+        document.querySelectorAll('.vVal').forEach(td => t += parseInt(td.innerText.replace(/\D/g, '')));
+        document.getElementById('totalCaja').innerText = "$" + t.toLocaleString('es-CL');
+    }
+</script>
+</body>
+</html>
