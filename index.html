@@ -8,91 +8,112 @@
     <style>
         :root { --p-dark: #2c3e50; --p-green: #27ae60; --bg: #f8f9fa; --text: #212529; --card: #ffffff; }
         [data-theme="dark"] { --bg: #1a1a1a; --text: #f8f9fa; --card: #2d2d2d; --p-dark: #ecf0f1; }
-        body { background-color: var(--bg); color: var(--text); font-family: sans-serif; transition: 0.3s; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; transition: 0.3s; }
         .card { background-color: var(--card); border: none; border-radius: 15px; }
-        .card-header { background-color: #2c3e50; color: white; border-radius: 15px 15px 0 0 !important; font-weight: bold; }
-        .resaltado { font-size: 2.2rem; color: var(--p-green); font-weight: bold; }
-        .mode-switch { cursor: pointer; font-size: 1.5rem; }
+        .card-header { background-color: #2c3e50; color: white; border-radius: 15px 15px 0 0 !important; font-weight: bold; padding: 15px; }
+        .resaltado { font-size: 2.5rem; color: var(--p-green); font-weight: bold; }
+        .mode-switch { cursor: pointer; font-size: 1.5rem; transition: transform 0.2s; }
+        .badge-neto { background: rgba(39, 174, 96, 0.1); color: var(--p-green); padding: 5px 10px; border-radius: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">Caja Perceptum</h2>
+        <div>
+            <h2 class="fw-bold mb-0">Óptica Perceptum</h2>
+            <small class="text-muted">Gestión de Caja - Manuel Lara</small>
+        </div>
         <div class="mode-switch" onclick="toggleTheme()">🌓</div>
     </div>
 
     <div class="row">
         <div class="col-md-7 mb-4">
-            <div class="card shadow border-0">
-                <div class="card-header text-center fs-4">CALCULADORA</div>
-                <div class="card-body">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-center fs-4">CALCULADORA DE VENTAS</div>
+                <div class="card-body p-4">
                     
-                    <label class="fw-bold mb-1">1. Armazón (Código)</label>
-                    <div class="input-group mb-3">
-                        <input type="text" id="codArmazon" class="form-control" placeholder="Ej: 10411" oninput="buscarArmazon()">
-                        <span class="input-group-text">Neto $</span>
-                        <input type="number" id="netoArmazon" class="form-control" value="0" oninput="calcular()">
-                    </div>
-
-                    <label class="fw-bold mb-1">2. Selección de Cristal</label>
-                    <select id="selectCristal" class="form-select mb-2" onchange="actualizarInterfazCristal()">
-                        <option value="">Seleccione Cristal...</option>
-                        <option value="cr39_blanco">CR-39 Blanco con AR 1.56</option>
-                        <option value="cr39_blue">CR-39 Blue Filter AR 1.56</option>
-                        <option value="cr39_foto">CR-39 Fotocromático AR 1.56</option>
-                        <option value="poli_ar">Policarbonato AR 1.59</option>
-                        <option value="poli_blue">Policarbonato Blue AR 1.59</option>
-                        <option value="alto_indice">Alto Índice Blue AR 1.67</option>
-                    </select>
-
-                    <div id="seccionRangos" class="row mb-3">
-                        <div class="col-6">
-                            <small class="fw-bold text-muted">Esfera</small>
-                            <select id="esfera" class="form-select" onchange="actualizarPrecioCristal()">
-                                <option value="2">Hasta 2.00</option>
-                                <option value="4">Hasta 4.00</option>
-                                <option value="6">Hasta 6.00</option>
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <small class="fw-bold text-muted">Cilindro</small>
-                            <select id="cilindro" class="form-select" onchange="actualizarPrecioCristal()">
-                                <option value="2">Hasta -2.00</option>
-                                <option value="4">Hasta -4.00</option>
-                                <option value="6">Hasta -6.00</option>
-                            </select>
+                    <div class="mb-4">
+                        <label class="fw-bold mb-2 text-uppercase small">1. Armazón (Código o Manual)</label>
+                        <div class="input-group">
+                            <input type="text" id="codArmazon" class="form-control" placeholder="Ingrese código..." oninput="buscarArmazon()">
+                            <span class="input-group-text bg-light">Neto $</span>
+                            <input type="number" id="netoArmazon" class="form-control" value="0" oninput="calcular()">
                         </div>
                     </div>
 
-                    <label class="fw-bold mb-1">3. Tipo de Armazón (Montaje)</label>
-                    <select id="tipoMontaje" class="form-select mb-4" onchange="actualizarPrecioCristal()">
-                        <option value="simple">Aro Completo (Simple)</option>
-                        <option value="ranurado">Ranurado</option>
-                        <option value="perforado">Perforado</option>
-                    </select>
+                    <div class="mb-4">
+                        <label class="fw-bold mb-2 text-uppercase small">2. Selección de Cristal</label>
+                        <select id="selectCristal" class="form-select mb-3" onchange="actualizarInterfazCristal()">
+                            <option value="">-- Seleccione un material --</option>
+                            <option value="cr39_blanco">CR-39 Blanco con AR 1.56</option>
+                            <option value="cr39_blue">CR-39 Blue Filter AR 1.56</option>
+                            <option value="cr39_foto_cafe">CR-39 Foto Café AR 1.56</option>
+                            <option value="cr39_foto_gris">CR-39 Foto Gris Blue AR 1.56</option>
+                            <option value="poli_ar">Policarbonato AR 1.59</option>
+                            <option value="poli_blue">Policarbonato Blue AR 1.59</option>
+                            <option value="alto_indice">Alto Índice Blue AR 1.67</option>
+                        </select>
+
+                        <div id="seccionRangos" class="row g-2">
+                            <div class="col-6">
+                                <small class="fw-bold text-muted">Esfera</small>
+                                <select id="esfera" class="form-select" onchange="actualizarPrecioCristal()">
+                                    <option value="2">Hasta 2.00</option>
+                                    <option value="4">Hasta 4.00</option>
+                                    <option value="6">Hasta 6.00</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <small class="fw-bold text-muted">Cilindro</small>
+                                <select id="cilindro" class="form-select" onchange="actualizarPrecioCristal()">
+                                    <option value="2">Hasta -2.00</option>
+                                    <option value="4">Hasta -4.00</option>
+                                    <option value="6">Hasta -6.00</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="fw-bold mb-2 text-uppercase small">3. Tipo de Armazón (Montaje)</label>
+                        <select id="tipoMontaje" class="form-select" onchange="actualizarPrecioCristal()">
+                            <option value="simple">Aro Completo (Simple)</option>
+                            <option value="ranurado">Ranurado</option>
+                            <option value="perforado">Perforado</option>
+                        </select>
+                    </div>
 
                     <div class="p-4 border rounded text-center shadow-sm" style="background: rgba(39, 174, 96, 0.05)">
-                        <div class="small fw-bold opacity-75">VENTA FINAL (IVA INCL.)</div>
+                        <div class="small fw-bold text-muted text-uppercase mb-1">Venta Final (IVA Incl.)</div>
                         <div class="resaltado" id="precioFinal">$0</div>
-                        <div class="small opacity-75 mt-1">Costo Neto (Lente + Montaje): <span id="netoTotal">$0</span></div>
+                        <div class="mt-2">
+                            <span class="small opacity-75">Costo Neto Total: </span>
+                            <span class="badge-neto" id="netoTotal">$0</span>
+                        </div>
                     </div>
 
-                    <button class="btn btn-success w-100 mt-4 fw-bold p-3" onclick="registrar()">REGISTRAR VENTA</button>
+                    <button class="btn btn-success w-100 mt-4 fw-bold p-3 shadow" onclick="registrar()">REGISTRAR VENTA</button>
                 </div>
             </div>
         </div>
 
         <div class="col-md-5">
             <div class="card shadow border-0 h-100">
-                <div class="card-header bg-secondary text-center">FLUJO DE CAJA</div>
-                <div class="card-body">
-                    <table class="table text-center">
-                        <thead><tr><th>Item</th><th>Venta</th><th></th></tr></thead>
+                <div class="card-header bg-secondary text-center">FLUJO DE CAJA DIARIO</div>
+                <div class="card-body p-0">
+                    <table class="table table-hover text-center mb-0">
+                        <thead class="table-light">
+                            <tr><th>Item</th><th>Venta</th><th></th></tr>
+                        </thead>
                         <tbody id="tablaVentas"></tbody>
                     </table>
-                    <div class="text-end fw-bold fs-4 mt-3">TOTAL: <span id="totalCaja" class="text-success">$0</span></div>
+                </div>
+                <div class="card-footer bg-white p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold fs-5">TOTAL CAJA:</span>
+                        <span id="totalCaja" class="fw-bold fs-3 text-success">$0</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,23 +121,31 @@
 </div>
 
 <script>
-    // --- BASE DE DATOS DE ARMAZONES ---
+    // --- 1. BASE DE DATOS DE ARMAZONES (LUCERNA ACTUALIZADO) ---
     const armazonesDB = {
-        "10411": 1990, "10410": 1990, "7224": 5500, "9105": 5990
-        // Envíame tus códigos para agregarlos aquí!
+        // $1.990
+        "10411": 1990, "10410": 1990, "10409": 1990, "10408": 1990, "10407": 1990, "10406": 1990, "10471": 1990, "10470": 1990, "10469": 1990, "10468": 1990, "10467": 1990, "9673": 1990, "9674": 1990, "9671": 1990, "9680": 1990, "9682": 1990, "7552": 1990, "10456": 1990, "10455": 1990, "10454": 1990, "10453": 1990, "10452": 1990, "10451": 1990, "9709": 1990, "9708": 1990, "9707": 1990, "9706": 1990, "10482": 1990, "10478": 1990, "10477": 1990, "10493": 1990, "10492": 1990, "10491": 1990, "10490": 1990, "10489": 1990, "10488": 1990, "10481": 1990, "10503": 1990, "10502": 1990, "10501": 1990, "10500": 1990, "10499": 1990, "10461": 1990, "10460": 1990, "10459": 1990, "10458": 1990, "10457": 1990, "9683": 1990, "9684": 1990, "9685": 1990, "7549": 1990, "7548": 1990, "7547": 1990, "7546": 1990, "7545": 1990, "9713": 1990, "9712": 1990, "9711": 1990, "9710": 1990, "9702": 1990, "9701": 1990, "9700": 1990,
+        // $2.500
+        "7349": 2500, "7348": 2500, "7347": 2500, "9716": 2500, "9717": 2500, "7319": 2500, "7318": 2500, "7317": 2500, "7316": 2500, "7315": 2500, "9658": 2500, "9659": 2500, "9660": 2500, "9661": 2500, "9662": 2500, "9663": 2500, "7339": 2500, "7338": 2500, "7337": 2500, "7336": 2500, "7335": 2500, "7458": 2500, "7459": 2500, "7460": 2500, "7461": 2500, "7462": 2500, "7463": 2500, "7406": 2500, "7405": 2500, "7404": 2500, "7403": 2500, "7402": 2500, "7401": 2500, "7543": 2500, "7544": 2500, "7542": 2500, "7541": 2500, "7331": 2500, "7344": 2500,
+        // $2.990
+        "6981": 2990, "6980": 2990, "6979": 2990, "6978": 2990, "6977": 2990, "6937": 2990, "6936": 2990, "6935": 2990, "6934": 2990, "6526": 2990, "6528": 2990, "6512": 2990, "6513": 2990, "6514": 2990, "6515": 2990, "6516": 2990, "6517": 2990, "6983": 2990, "6984": 2990, "7749": 2990, "6912": 2990, "6911": 2990, "6910": 2990, "6909": 2990, "6908": 2990, "6907": 2990, "6916": 2990, "6915": 2990, "6914": 2990, "6913": 2990, "6943": 2990, "6942": 2990, "6941": 2990, "6940": 2990, "6939": 2990, "6538": 2990, "6537": 2990, "6536": 2990, "6535": 2990, "6923": 2990, "6922": 2990, "6921": 2990, "6919": 2990, "6918": 2990, "6957": 2990, "6956": 2990, "6955": 2990, "6954": 2990, "6546": 2990, "6545": 2990, "6544": 2990, "6543": 2990, "6900": 2990, "6899": 2990, "6898": 2990, "6897": 2990, "6896": 2990, "6976": 2990, "6975": 2990, "6974": 2990, "6973": 2990, "6972": 2990, "5730": 2990, "5712": 2990, "5713": 2990, "5714": 2990, "5715": 2990, "5716": 2990,
+        // $3.600
+        "7750": 3600, "7751": 3600, "7752": 3600, "7753": 3600, "007560": 3600, "9544": 3600, "9543": 3600, "9542": 3600, "9541": 3600, "008451": 3600, "008450": 3600, "9549": 3600, "9548": 3600, "9547": 3600, "9546": 3600, "9545": 3600, "3519": 3600, "30518": 3600, "3517": 3600, "3678": 3600, "7754": 3600, "7755": 3600, "7756": 3600, "7757": 3600, "7758": 3600, "3680": 3600, "3679": 3600, "10514": 3600, "10513": 3600, "10512": 3600, "10506": 3600, "10505": 3600, "10504": 3600, "10508": 3600, "10507": 3600, "10517": 3600, "10516": 3600, "10515": 3600, "10519": 3600, "10518": 3600, "10522": 3600, "10521": 3600, "10520": 3600, "10527": 3600, "10526": 3600, "10525": 3600, "10524": 3600, "10523": 3600, "10529": 3600, "10528": 3600, "7790": 3600, "7791": 3600, "7792": 3600, "7793": 3600, "7794": 3600, "7795": 3600, "3497": 3600, "3496": 3600, "3495": 3600, "3494": 3600, "3349": 3600, "2990": 3600, "2991": 3600, "2993": 3600, "7784": 3600, "7785": 3600, "7786": 3600, "7787": 3600, "7788": 3600, "7767": 3600, "7766": 3600, "7765": 3600, "7764": 3600, "7763": 3600, "006625": 3600, "006623": 3600, "006626": 3600,
+        // $3.990
+        "0084387": 3990, "8439": 3990, "008440": 3990, "008484": 3990, "008483": 3990, "008482": 3990, "008481": 3990, "008480": 3990, "008479": 3990, "008443": 3990, "008444": 3990, "008445": 3990, "8446": 3990, "008447": 3990, "008448": 3990
     };
 
-    // --- BASE DE DATOS DE CRISTALES (Netos) ---
+    // --- 2. BASE DE DATOS DE CRISTALES (Netos) ---
     const cristalesDB = {
-        cr39_blanco: { "2/2": 620, "4/2": 620, "6/2": 940, "2/4": 1890, "4/4": 1990, "6/4": 2190, "8/4": 2390, "10/4": 2490, "6/6": 2590 },
-        cr39_blue:   { "2/2": 1880, "4/2": 1880, "6/2": 2290, "2/4": 3770, "4/4": 3770, "6/4": 3790 },
-        cr39_foto:   { "2/2": 2890, "4/2": 2890, "2/4": 5790, "4/4": 5790 },
-        poli_ar:     { "2/2": 2040, "4/2": 2040, "6/2": 2740, "2/4": 5840, "4/4": 5840, "6/4": 7490 },
-        poli_blue:   { "2/2": 4000, "4/2": 4000, "2/4": 8000, "4/4": 8000 },
+        cr39_blanco: { "2/2": 620, "4/2": 620, "6/2": 940, "2/4": 1890, "4/4": 1990, "6/4": 2190 },
+        cr39_blue:   { "2/2": 1880, "4/2": 1880, "6/2": 2290, "2/4": 3770, "4/4": 3770 },
+        cr39_foto_cafe: { "2/2": 2890, "4/2": 2890, "2/4": 5790 },
+        cr39_foto_gris: { "2/2": 3500, "4/2": 3500, "2/4": 4000 },
+        poli_ar:     { "2/2": 2040, "4/2": 2040, "6/2": 2740, "2/4": 5840 },
+        poli_blue:   { "2/2": 4000, "4/2": 4000, "2/4": 8000 },
         alto_indice: { fixed_bajo: 11000, fixed_alto: 18000 }
     };
 
-    // --- BASE DE DATOS DE MONTAJES ---
     const montajesDB = {
         organico: { simple: 1500, ranurado: 3000, perforado: 0 },
         especial: { simple: 4000, ranurado: 5000, perforado: 7000 }
@@ -136,9 +165,7 @@
 
     function actualizarInterfazCristal() {
         const mat = document.getElementById('selectCristal').value;
-        const seccion = document.getElementById('seccionRangos');
-        // Si es Alto Índice, mostramos solo cil para decidir entre 11k o 18k
-        seccion.style.opacity = (mat === "alto_indice") ? "0.5" : "1";
+        document.getElementById('seccionRangos').style.opacity = (mat === "alto_indice") ? "0.5" : "1";
         actualizarPrecioCristal();
     }
 
@@ -147,10 +174,8 @@
         const esf = document.getElementById('esfera').value;
         const cil = document.getElementById('cilindro').value;
         const montaje = document.getElementById('tipoMontaje').value;
-
         if(!mat) return;
 
-        // 1. Precio del Cristal
         if(mat === "alto_indice") {
             costoLenteActual = (cil >= 4) ? cristalesDB.alto_indice.fixed_alto : cristalesDB.alto_indice.fixed_bajo;
         } else {
@@ -158,11 +183,8 @@
             costoLenteActual = cristalesDB[mat][llave] || cristalesDB[mat]["2/2"] || 0;
         }
 
-        // 2. Precio del Montaje automático
         let cat = (mat.includes('cr39')) ? 'organico' : 'especial';
-        let costoMontaje = montajesDB[cat][montaje] || 0;
-
-        costoLenteActual += costoMontaje;
+        costoLenteActual += montajesDB[cat][montaje] || 0;
         calcular();
     }
 
@@ -170,17 +192,18 @@
         const netoArm = parseFloat(document.getElementById('netoArmazon').value) || 0;
         const sumaNetos = netoArm + costoLenteActual;
         const venta = Math.round((sumaNetos * 3) * 1.19);
-        
         document.getElementById('netoTotal').innerText = "$" + sumaNetos.toLocaleString('es-CL');
         document.getElementById('precioFinal').innerText = "$" + venta.toLocaleString('es-CL');
     }
 
     function registrar() {
-        const v = document.getElementById('precioFinal').innerText;
-        if(v === "$0") return;
-        const item = document.getElementById('codArmazon').value || "Venta";
-        document.getElementById('tablaVentas').innerHTML += `<tr><td>${item}</td><td class="vVal">${v}</td><td><button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove(); actualizarCaja()">×</button></td></tr>`;
+        const final = document.getElementById('precioFinal').innerText;
+        if(final === "$0") return;
+        const cod = document.getElementById('codArmazon').value || "Manual";
+        document.getElementById('tablaVentas').innerHTML += `<tr><td>${cod}</td><td class="vVal fw-bold">${final}</td><td><button class="btn btn-sm text-danger" onclick="this.parentElement.parentElement.remove(); actualizarCaja()">✕</button></td></tr>`;
         actualizarCaja();
+        document.getElementById('codArmazon').value = "";
+        document.getElementById('netoArmazon').value = "0";
     }
 
     function actualizarCaja() {
